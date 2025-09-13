@@ -1,0 +1,57 @@
+# Gym Quest Demo - Justfile
+# Development commands for the SvelteKit demo
+
+# Default recipe - show available commands
+default:
+    @just --list
+
+# Install dependencies
+install:
+    bun install
+
+# Start development server (use with caution - only when explicitly requested)
+dev:
+    @echo "⚠️  Starting development server - remember to stop when done"
+    bun run dev
+
+# Build the project
+build:
+    bun run build
+
+# Preview the built project
+preview:
+    bun run preview
+
+# Run type checking and linting
+check:
+    bun run check
+
+# Run type checking in watch mode
+check-watch:
+    bun run check:watch
+
+# Format code (if prettier is added)
+format:
+    bunx prettier --write .
+
+# Clean build artifacts
+clean:
+    rm -rf .svelte-kit
+    rm -rf build
+    rm -rf dist
+
+# Reset project (clean + reinstall)
+reset: clean
+    rm -rf node_modules
+    rm -f bun.lockb
+    just install
+
+# Build and check for production readiness
+production-check: clean build
+    @echo "✅ Production build completed successfully"
+
+# Quick development setup
+setup: install build
+    @echo "🚀 Gym Quest Demo setup complete!"
+    @echo "📝 Run 'just dev' to start development server"
+    @echo "🔍 Run 'just check' to verify code quality"
